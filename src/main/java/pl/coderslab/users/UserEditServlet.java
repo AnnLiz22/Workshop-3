@@ -1,4 +1,4 @@
-package pl.coderslab.web;
+package pl.coderslab.users;
 
 import pl.coderslab.User;
 import pl.coderslab.UserDao;
@@ -29,4 +29,22 @@ public class UserEditServlet extends HttpServlet {
         }
 
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User user = new User();
+        user.setId(Integer.parseInt(req.getParameter("id")));
+        user.setUsername(req.getParameter("userName"));
+        user.setEmail(req.getParameter("userEmail"));
+        user.setPassword(req.getParameter("userPassword"));
+        UserDao userDao = new UserDao();
+        try {
+            userDao.updateUser(user);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        resp.sendRedirect(req.getContextPath() + "/user/list");
+
+    }
+
 }
