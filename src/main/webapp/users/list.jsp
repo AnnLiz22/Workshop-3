@@ -27,7 +27,6 @@
 
 </head>
 
-
 <body id="page-top">
 
 <!-- Page Wrapper -->
@@ -35,7 +34,55 @@
 
     <%@ include file="/header.jsp" %>
 
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-download fa-sm text-white-50"></i> Add new user </a>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Lista użytkowników</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>Id</th>
+                        <th>Nazwa użytkownika</th>
+                        <th>Email</th>
+                        <th>Akcja</th>
+                    </tr>
+                    <c:forEach items="${users}" var="user">
+                        <tr>
+                            <td>${user.id}</td>
+                            <td>${user.userName}</td>
+                            <td>${user.email}</td>
+                            <td>
+                                <a href='<c:url value="/user/delete?id=${user.id}"/>'>Usuń</a>
+                                <a href='<c:url value="/user/edit?id=${user.id}"/>'>Edytuj</a>
+                                <a href='<c:url value="/user/show?id=${user.id}"/>'>Pokaż</a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Content Row -->
+    <!-- Content Row -->
+    <!-- Content Row -->
+
 </div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+<!-- Footer -->
+<%@ include file="/footer.jsp" %>
+
+
 <!-- End of Page Wrapper -->
 
 <!-- Scroll to Top Button-->
