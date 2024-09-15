@@ -1,13 +1,26 @@
 package pl.coderslab;
 
+import lombok.NoArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import pl.coderslab.utils.DbUtil;
 
 import java.sql.*;
 import java.util.Arrays;
-
-
+@NoArgsConstructor
 public class UserDao {
+    private Connection conn;
+
+    {
+        try {
+            conn = DbUtil.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public UserDao(Connection connection){
+        this.conn = connection;
+    }
 
     private static final String QUERY_ADD_USER = "INSERT INTO users (email, username, password) VALUES ( ?, ?, ?);";
     private static final String QUERY_ALTER_DATA = "Update users SET email=?, username=?, password=? where id=?;";
@@ -18,7 +31,7 @@ public class UserDao {
 
     public User createUser(User user) {
 
-        try (Connection conn = DbUtil.getConnection();
+        try (
              PreparedStatement preStmt =
                      conn.prepareStatement(QUERY_ADD_USER,
                              PreparedStatement.RETURN_GENERATED_KEYS);) {
@@ -41,8 +54,8 @@ public class UserDao {
     }
 
     public void updateUser(User user) throws SQLException {
-        try (Connection connection = DbUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_ALTER_DATA)) {
+        try (
+             PreparedStatement preparedStatement = conn.prepareStatement(QUERY_ALTER_DATA)) {
 
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, user.getUsername());
@@ -56,8 +69,7 @@ public class UserDao {
     }
 
     public User readUserById(int id) throws SQLException {
-        try (Connection connection = DbUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_SELECT_BY_ID)) {
+        try (PreparedStatement preparedStatement = conn.prepareStatement(QUERY_SELECT_BY_ID)) {
 
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -78,8 +90,7 @@ public class UserDao {
 
 
     public void deleteUserById(int id) {
-        try (Connection connection = DbUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_DELETE_BY_ID)) {
+        try (PreparedStatement preparedStatement = conn.prepareStatement(QUERY_DELETE_BY_ID)) {
 
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
