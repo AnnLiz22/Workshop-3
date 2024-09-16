@@ -12,6 +12,12 @@ import java.io.IOException;
 @WebServlet("/user/delete")
 public class UserDeleteServlet extends HttpServlet {
 
+    private UserDao userDao;
+
+    public UserDeleteServlet(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserDao userDao = new UserDao();

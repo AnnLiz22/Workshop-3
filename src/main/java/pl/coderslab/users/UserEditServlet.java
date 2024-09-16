@@ -13,6 +13,11 @@ import java.sql.SQLException;
 
 @WebServlet("/user/edit")
 public class UserEditServlet extends HttpServlet {
+    private UserDao userDao;
+
+    public UserEditServlet(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
