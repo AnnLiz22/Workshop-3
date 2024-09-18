@@ -1,8 +1,12 @@
 package pl.coderslab.users;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +33,11 @@ class UserEditServletTest {
   }
 
   @Test
-  void doGet() {
+  void shouldRedirectToGivenUserWithDoGet() throws ServletException, IOException {
+    when(request.getRequestDispatcher("/users/edit.jsp")).thenReturn(requestDispatcher);
+    userEditServlet.doGet(request, response);
+    verify(request).getRequestDispatcher("/users/edit.jsp");
+    verify(requestDispatcher).forward(request, response);
   }
 
   @Test
