@@ -13,11 +13,15 @@ import java.sql.SQLException;
 
 @WebServlet("/user/edit")
 public class UserEditServlet extends HttpServlet {
+    private final UserDao userDao;
+
+    public UserEditServlet(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
-        UserDao userDao = new UserDao();
         try {
             User read = userDao.readUserById(Integer.parseInt(id));
             req.setAttribute("user", read);
@@ -37,7 +41,6 @@ public class UserEditServlet extends HttpServlet {
         user.setUsername(req.getParameter("userName"));
         user.setEmail(req.getParameter("userEmail"));
         user.setPassword(req.getParameter("userPassword"));
-        UserDao userDao = new UserDao();
         try {
             userDao.updateUser(user);
         } catch (SQLException e) {

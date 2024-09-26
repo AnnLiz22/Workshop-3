@@ -1,5 +1,6 @@
 package pl.coderslab.users;
 
+import lombok.NoArgsConstructor;
 import pl.coderslab.User;
 import pl.coderslab.UserDao;
 
@@ -9,9 +10,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+@NoArgsConstructor
 @WebServlet("/user/add")
 public class UserAddServlet extends HttpServlet {
+
+    private UserDao userDao;
+    public UserAddServlet(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         getServletContext().getRequestDispatcher("/users/add.jsp")
